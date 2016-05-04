@@ -7,6 +7,6 @@ int main()
 	int *ipointer;
 	int &ireference = i ;
 	ipointer = &i;
-	cout << "Using ipointer 		i=" << *ipoiter << endl;
-	cout << "Using itreference	i=" << ireference << endl;
+	cout << "Using ipointer 		i=" << *ipointer << endl;
+	cout << "Using ireference	i=" << ireference << endl;
 }
