@@ -26,8 +26,10 @@ int main(int argc, char **argv)
   ifstream inf; // input file
   char ch;      // current character
   bool eofile;  // true when end of file is reached
-	
-	
+  int number;	// integer to store number acquired from getnumber function.
+  namestring str = "";
+  
+  
   if (argc != 2) {
     cout << "Usage:         " << argv[0] << " [filename]" << endl;
     exit(1);
@@ -40,54 +42,27 @@ int main(int argc, char **argv)
   }
 
   eofile = !inf.get(ch); // get first character
-#ifdef skipsp
+  
   while (!eofile) {
-    if (isspace(ch))
+	  if (isspace(ch))
 		{
 			skipspaces(&inf, ch, eofile);
 			if (eofile) break;
 		}
-		cout << ch;
-    eofile = !inf.get(ch); // get next character
-  }
-#endif
-
-#ifdef dnum
-// Execute this for exercise 3
-	int number;
-	 while (!eofile) {
-		 if (isdigit(ch))
+	  else if (isdigit(ch))
 		 {
 			 getnumber(&inf, ch, eofile, number);
 			 cout<< number<< endl;
 			 if (eofile) break;
 		 }
-    eofile = !inf.get(ch); // get next character
-  }
-#endif
-
-#ifdef strex4
-// Execute this for exercise 4
-	namestring str = "";
-	 while (!eofile) {
-		 if (isalpha(ch))
+	  else if (isalpha(ch))
 		 {
 			 getname(&inf, ch, eofile, str);
 			 cout<< str<< endl;
 			 if (eofile) break;
 		 }
-    eofile = !inf.get(ch); // get next character
   }
-#endif
   
-	/*
-#else
-  while (!eofile) {
-    if (isspace(ch)) cout << '.';
-    else cout << ch;
-    eofile = !inf.get(ch); // get next character
-  }
-#endif*/
 
   inf.close();
 }
@@ -131,18 +106,17 @@ void getname(ifstream *infp, char &curch, bool &eofile, namestring &str)
 {
 	str = "";
 	int i = 0;
-	bool e = false;
 	
 	while (!eofile) {
 		if (!isalpha(curch)) break; // 
 		else {
-			if (i < maxlength) str+= curch;
-			else e = true;
-			i++;
+			str+= curch;
 			eofile = !(infp->get(curch)); //get next character
 		}
 	}
-	if (e) cout<< "Warning: name exceeds "<< maxlength <<" characters" << endl;
-	
+	if (str.size() > maxlength){
+		cout<< "Warning: name '" << str << "' was truncated" <<endl;
+		str.resize(maxlength);
+	}
 	return;
 }
