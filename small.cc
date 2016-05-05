@@ -1,7 +1,9 @@
 // define for skip spaces in ex2
 //#define skipsp
 // define for numbers in ex3
-#define dnum
+//#define dnum
+// define for ex4
+#define strex4
 
 #include <iostream>
 #include <fstream>
@@ -10,8 +12,12 @@
 #include <string>
 using namespace std;
 
+const int maxlength = 8; // maximum number of characters in a name string
+typedef string namestring;
+
 void skipspaces(ifstream *infp, char &curch, bool &eofile);
 void getnumber(ifstream *infp, char &curch, bool &eofile, int &number);
+void getname(ifstream *infp, char &curch, bool &eofile, namestring &str);
 
 int main(int argc, char **argv)
 // If this program is put in a file called small.cc, it can
@@ -59,6 +65,20 @@ int main(int argc, char **argv)
     eofile = !inf.get(ch); // get next character
   }
 #endif
+
+#ifdef strex4
+// Execute this for exercise 4
+	namestring str = "";
+	 while (!eofile) {
+		 if (isalpha(ch))
+		 {
+			 getname(&inf, ch, eofile, str);
+			 cout<< str<< endl;
+			 if (eofile) break;
+		 }
+    eofile = !inf.get(ch); // get next character
+  }
+#endif
   
 	/*
 #else
@@ -77,7 +97,7 @@ void skipspaces(ifstream *infp, char &curch, bool &eofile)
 // curch - current character
 // eofile - bool enf-of-file flag. true if end of file is reached.
 {
-	eofile = !(*infp).get(curch);
+	//eofile = !(*infp).get(curch);
 	
 	while (!eofile) {
 		if (!isspace(curch)) return; // if the character is not space, break loop and return for
@@ -101,5 +121,28 @@ void getnumber(ifstream *infp, char &curch, bool &eofile, int &number)
 		}
 	}
 	number = stoi(nstr);
+	return;
+}
+
+void getname(ifstream *infp, char &curch, bool &eofile, namestring &str)
+// Reads name from text file, starting with curch
+// str = reference parameter for result
+// 
+{
+	str = "";
+	int i = 0;
+	bool e = false;
+	
+	while (!eofile) {
+		if (!isalpha(curch)) break; // 
+		else {
+			if (i < maxlength) str+= curch;
+			else e = true;
+			i++;
+			eofile = !(infp->get(curch)); //get next character
+		}
+	}
+	if (e) cout<< "Warning: name exceeds "<< maxlength <<" characters" << endl;
+	
 	return;
 }
