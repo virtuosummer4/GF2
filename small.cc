@@ -1,10 +1,12 @@
-#define skipspaces // define if you want to skip spaces
+//#define skipspaces // define if you want to skip spaces
 
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <cctype>
 using namespace std;
+
+void skipspaces(ifstream *infp, char &curch, bool &eofile);
 
 int main(int argc, char **argv)
 // If this program is put in a file called small.cc, it can
@@ -26,7 +28,7 @@ int main(int argc, char **argv)
   }
 
   eofile = !inf.get(ch); // get first character
-#ifdef skipspaces
+//#ifdef skipspaces
   while (!eofile) {
     if (isspace(ch))
 		{
@@ -36,27 +38,28 @@ int main(int argc, char **argv)
 		cout << ch;
     eofile = !inf.get(ch); // get next character
   }
-
-#else
+/*
+//#else
   while (!eofile) {
     if (isspace(ch)) cout << '.';
     else cout << ch;
     eofile = !inf.get(ch); // get next character
   }
-#endif
+//#endif
+*/
   inf.close();
 }
 
-void skipspaces (ifstream *infp, char &curch, bool &eofile)
+void skipspaces(ifstream *infp, char &curch, bool &eofile)
 // infp - pointer to input file
 // curch - current character
 // eofile - bool enf-of-file flag. true if end of file is reached.
 {
-	eofile = !*infp.get(curch);
+	eofile = !(infp->get(curch));
 	
 	while (!eofile) {
 		if (!isspace(curch)) return; // if the character is not space, break loop and return for
-		else eofile = !*infp.get(curch); //get next character
+		else eofile = !(infp->get(curch)); //get next character
 	}
 	return;
 }
