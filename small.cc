@@ -1,10 +1,13 @@
+// define for skip spaces in ex2
 //#define skipsp
-#define detnum
+// define for numbers in ex3
+#define dnum
 
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <cctype>
+#include <string>
 using namespace std;
 
 void skipspaces(ifstream *infp, char &curch, bool &eofile);
@@ -41,10 +44,11 @@ int main(int argc, char **argv)
 		cout << ch;
     eofile = !inf.get(ch); // get next character
   }
-#ifdef detnum
+#endif
+
+#ifdef dnum
 // Execute this for exercise 3
 	int number;
-	
 	 while (!eofile) {
 		 if (isdigit(ch))
 		 {
@@ -54,14 +58,16 @@ int main(int argc, char **argv)
 		 }
     eofile = !inf.get(ch); // get next character
   }
-	
+#endif
+  
+	/*
 #else
   while (!eofile) {
     if (isspace(ch)) cout << '.';
     else cout << ch;
     eofile = !inf.get(ch); // get next character
   }
-#endif
+#endif*/
 
   inf.close();
 }
