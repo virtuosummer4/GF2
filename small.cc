@@ -11,6 +11,8 @@
 #include <cctype>
 #include <string>
 #include <vector>
+
+#include "check.h"
 using namespace std;
 
 const int maxlength = 8; // maximum number of characters in a name string
@@ -56,17 +58,6 @@ class namebase
 		//cout << index << endl; 
 		return index;
 	}
-	
-	void writename(name id)
-	{
-		int size = namelist.size();
-		if (id<0)
-			cout<< "Invalid name ID, use positive integers smaller than "<< size << endl;
-		else if (id>size-1)
-			cout << "Invalid name ID, use positive integers smaller than "<< size << endl;
-		else cout << namelist[id].str ;
-	}
-	
 	length namelength(name id)
 	{
 		int size = namelist.size();
@@ -82,6 +73,19 @@ class namebase
 		}
 	}
 	
+	int getsize(){ return namelist.size();}
+	
+	void writename(name id)
+	{
+		int size = namelist.size();
+		if (id<0)
+			cout<< "Invalid name ID, use positive integers smaller than "<< size << endl;
+		else if (id>size-1)
+			cout << "Invalid name ID, use positive integers smaller than "<< size << endl;
+		else cout << namelist[id].str ;
+	}
+	
+	
 	void printall()
 	{
 		int size = namelist.size();
@@ -93,6 +97,8 @@ class namebase
 	
 	
 };
+
+check checker;
 
 namebase Namebase;
 
@@ -201,6 +207,7 @@ name getname(ifstream *infp, char &curch, bool &eofile, namestring &str)
 		cout<< "Warning: name '" << str << "' was truncated" <<endl;
 		str.resize(maxlength);
 	}
+	checker.ckstr(str);
 	index = Namebase.add(str);
 	//cout << index << endl;
 	return index;
